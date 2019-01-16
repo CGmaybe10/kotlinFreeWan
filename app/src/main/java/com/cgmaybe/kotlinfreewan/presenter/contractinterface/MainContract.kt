@@ -11,14 +11,14 @@ interface MainContract {
     /**
      * 主页面的view接口
      */
-    interface View : IBaseView {
+    interface MainView : IBaseView {
 
     }
 
     /**
      * 主页面的present
      */
-    interface Presenter : IBasePresenter {
+    interface MainPresenter : IBasePresenter {
 
     }
 }
