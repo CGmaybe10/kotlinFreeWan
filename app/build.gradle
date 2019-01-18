@@ -32,13 +32,15 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'//下拉刷新
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'//配合下拉刷新的头部
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'//底部导航栏
+    implementation 'com.youth.banner:banner:1.4.10'//banner
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'//tabLayout
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'//retrofit
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'//gson转换器
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation "io.reactivex.rxjava2:rxjava:2.2.5"//rxjava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'//rxandroid
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'//rxadapter
-    implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.youth.banner:banner:1.4.10'//banner
+    implementation 'com.orhanobut:logger:2.2.0'//logger
     implementation 'com.github.bumptech.glide:glide:4.8.0'//glide
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

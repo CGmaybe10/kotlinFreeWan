@@ -1,16 +1,6 @@
 package com.cgmaybe.kotlinfreewan.data.bean
 
-data class SystemDetailBean(
-    val curPage: Int,
-    val datas: List<SystemListDetail>,
-    val offset: Int,
-    val over: Boolean,
-    val pageCount: Int,
-    val size: Int,
-    val total: Int
-)
-
-data class SystemListDetail(
+data class SystemItemDetail(
     val apkLink: String,
     val author: String,
     val chapterId: Int,
@@ -28,7 +18,7 @@ data class SystemListDetail(
     val publishTime: Long,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Any>,
+    val tags: List<Tag>,
     val title: String,
     val type: Int,
     val userId: Int,

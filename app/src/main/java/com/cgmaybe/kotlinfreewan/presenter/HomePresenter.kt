@@ -30,7 +30,7 @@ class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.
                 mHomeData.clear()
                 mHomeData.add(HomeData(HomeAdapter.HOME_BANNER_TYPE, bannerData.data, null))
                 mHomeData.add(HomeData(HomeAdapter.HOME_AREA_TYPE, null, null))
-                apiService.getHomeBlog(mHomePage.toString())//请求博客列表
+                apiService.getHomeBlog(mHomePage)//请求博客列表
             }
             .flatMap { blogData ->
                 Observable.fromIterable(blogData.data.blogList)
@@ -64,7 +64,7 @@ class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.
         mHomePage++
         val apiService = RetrofitHelper.getRetrofit().create(ApiService::class.java)
         apiService
-            .getHomeBlog(mHomePage.toString())
+            .getHomeBlog(mHomePage)
             .flatMap { blogData ->
                 Observable.fromIterable(blogData.data.blogList)
             }

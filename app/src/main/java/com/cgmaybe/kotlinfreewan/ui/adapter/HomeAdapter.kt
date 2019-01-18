@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.data.bean.HomeData
+import com.cgmaybe.kotlinfreewan.utils.getTimeInterval
 import com.cgmaybe.kotlinfreewan.widget.youthbanner.BannerImageLoader
 import com.orhanobut.logger.Logger
 import com.youth.banner.Banner
@@ -17,7 +18,6 @@ import kotlinx.android.synthetic.main.home_blog_item.view.*
 import kotlinx.android.synthetic.main.home_tool_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 /**
  * 首页列表的adapter
@@ -83,9 +83,7 @@ class HomeAdapter(private val mContext: Context, private val mHomeData: List<Hom
                 )
                 blogHolder.homeBlogCategoryTV.text = category
 
-                val dateFormat = SimpleDateFormat("MM/dd/yy", Locale.getDefault())
-                val date = Date(mHomeData[position].mHomeBlog!!.publishTime)
-                blogHolder.homeBlogDateTV.text = dateFormat.format(date)
+                blogHolder.homeBlogDateTV.text = getTimeInterval(mHomeData[position].mHomeBlog!!.publishTime, "dd/MM/yy")
             }
 
         }

@@ -1,10 +1,7 @@
 package com.cgmaybe.kotlinfreewan.data.bean
 
-/**
- * 体系和项目的一级分类和二级分类
- */
-data class SystemCategoryDetail(
-    val children: List<SystemCategoryItemDetail>,
+data class SystemCategoryItemDetail(
+    val children: List<Any>,
     val courseId: Int,
     val id: Int,
     val name: String,

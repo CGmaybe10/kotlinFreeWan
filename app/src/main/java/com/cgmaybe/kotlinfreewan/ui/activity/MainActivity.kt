@@ -2,6 +2,7 @@ package com.cgmaybe.kotlinfreewan.ui.activity
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.util.Log
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_FIXED
@@ -14,6 +15,7 @@ import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.MainContract
 import com.cgmaybe.kotlinfreewan.ui.adapter.MainAdapter
 import com.cgmaybe.kotlinfreewan.ui.fragment.HomeFragment
+import com.cgmaybe.kotlinfreewan.ui.fragment.ProjectFragment
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import io.reactivex.Observable
@@ -40,42 +42,6 @@ class MainActivity : BaseActivity(), MainContract.MainView {
 
     private fun initData() {
         Logger.addLogAdapter(AndroidLogAdapter())
-
-        val observer = object : Observer<BaseResult<List<HomeBannerBean>>> {
-            override fun onComplete() {
-                Log.d("moubiao", "complete---->")
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                Log.d("moubiao", "onSubscribe---->")
-            }
-
-            override fun onNext(t: BaseResult<List<HomeBannerBean>>) {
-                val result = t.data
-                for (item in result) {
-                    Log.d(
-                        "moubiao",
-                        "onNext----code = ${t.errorCode} message = ${t.errorMsg} + first data = ${item.title}"
-                    )
-                }
-//                Logger.d(result)
-            }
-
-            override fun onError(e: Throwable) {
-                Log.d("moubiao", "onError---->")
-            }
-
-        }
-        val apiService = RetrofitHelper.getRetrofit().create(ApiService::class.java)
-        apiService.getHomeBanner()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(observer)
-
-        val myObservable = Observable.create(ObservableOnSubscribe<String> {
-
-
-        })
     }
 
     private fun initView() {
@@ -90,10 +56,23 @@ class MainActivity : BaseActivity(), MainContract.MainView {
 
         val mainData: MutableList<Fragment> = arrayListOf()
         mainData.add(HomeFragment())
+        mainData.add(ProjectFragment())
         mMainVP.adapter = MainAdapter(supportFragmentManager, mainData)
     }
 
     private fun setListener(){
+        mMainVP.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(p0: Int) {
+            }
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+            }
+
+            override fun onPageSelected(p0: Int) {
+                mMainBottomNB.setFirstSelectedPosition(p0).initialise()
+            }
+
+        })
         mMainBottomNB.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener{
             override fun onTabReselected(position: Int) {
 
@@ -104,7 +83,7 @@ class MainActivity : BaseActivity(), MainContract.MainView {
             }
 
             override fun onTabSelected(position: Int) {
-                Log.d("moubiao", "pos = $position")
+                mMainVP.setCurrentItem(position, true)
             }
 
         })
