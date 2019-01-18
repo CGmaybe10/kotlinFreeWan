@@ -2,8 +2,7 @@
 <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mSystemListSRL"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#cc99cc">
+    android:layout_height="match_parent">
 
     <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"
