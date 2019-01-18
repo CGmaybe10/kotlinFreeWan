@@ -52,9 +52,9 @@ class ProjectListFragment : Fragment(), ProjectListContract.IProjectListView {
 
     override fun updateCategoryList(refresh: Boolean) {
         if (refresh) {
-            mProjectSRL.finishRefresh()
+            mProjectSRL?.finishRefresh()
         } else {
-            mProjectSRL.finishLoadMore()
+            mProjectSRL?.finishLoadMore()
         }
         mProjectListAdapter.notifyDataSetChanged()
     }

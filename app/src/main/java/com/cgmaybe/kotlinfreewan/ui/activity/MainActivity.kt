@@ -3,27 +3,17 @@ package com.cgmaybe.kotlinfreewan.ui.activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
-import android.util.Log
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_FIXED
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.cgmaybe.kotlinfreewan.R
-import com.cgmaybe.kotlinfreewan.data.bean.BaseResult
-import com.cgmaybe.kotlinfreewan.data.bean.HomeBannerBean
-import com.cgmaybe.kotlinfreewan.data.remote.ApiService
-import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.MainContract
 import com.cgmaybe.kotlinfreewan.ui.adapter.MainAdapter
 import com.cgmaybe.kotlinfreewan.ui.fragment.HomeFragment
 import com.cgmaybe.kotlinfreewan.ui.fragment.ProjectFragment
+import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), MainContract.MainView {
@@ -48,20 +38,21 @@ class MainActivity : BaseActivity(), MainContract.MainView {
         mMainBottomNB
             .addItem(BottomNavigationItem(R.drawable.home, getString(R.string.main_home)))
             .addItem(BottomNavigationItem(R.drawable.system, getString(R.string.main_system)))
-            .addItem(BottomNavigationItem(R.drawable.navigation, getString(R.string.main_navigation)))
             .addItem(BottomNavigationItem(R.drawable.project_256, getString(R.string.main_project)))
+            .addItem(BottomNavigationItem(R.drawable.navigation, getString(R.string.main_navigation)))
             .setFirstSelectedPosition(0)
             .setMode(MODE_FIXED)
             .initialise()
 
         val mainData: MutableList<Fragment> = arrayListOf()
         mainData.add(HomeFragment())
+        mainData.add(SystemFragment())
         mainData.add(ProjectFragment())
         mMainVP.adapter = MainAdapter(supportFragmentManager, mainData)
     }
 
-    private fun setListener(){
-        mMainVP.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+    private fun setListener() {
+        mMainVP.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {
             }
 
@@ -73,7 +64,7 @@ class MainActivity : BaseActivity(), MainContract.MainView {
             }
 
         })
-        mMainBottomNB.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener{
+        mMainBottomNB.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
             override fun onTabReselected(position: Int) {
 
             }

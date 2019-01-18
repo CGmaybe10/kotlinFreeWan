@@ -31,6 +31,18 @@ interface ApiService {
     /**
      * 获取项目的分类数据
      */
+    @GET("tree/json")
+    fun getSystemCategoryData(): Observable<BaseResult<List<SystemCategoryDetail>>>
+
+    /**
+     * 获取体系某个分类的数据
+     */
+    @GET("/article/list/{page}/json")
+    fun getSystemListData(@Path("page") page: Int, @Query("cid") categoryID: Int): Observable<BaseResult<SystemDetailBean>>
+
+    /**
+     * 获取项目的分类数据
+     */
     @GET("project/tree/json")
     fun getProjectCategoryData(): Observable<BaseResult<List<SystemCategoryDetail>>>
 

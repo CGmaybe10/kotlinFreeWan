@@ -58,7 +58,7 @@ class HomeFragment : Fragment(), HomeContract.HomeView {
      * 刷新完成
      */
     override fun completeRefresh() {
-        mHomeSRL.finishRefresh()
+        mHomeSRL?.finishRefresh()
         mHomeAdapter.notifyDataSetChanged()
     }
 
