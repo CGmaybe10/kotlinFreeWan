@@ -3,6 +3,7 @@ package com.cgmaybe.kotlinfreewan.ui.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -57,12 +58,12 @@ class SystemListFragment : Fragment(), SystemListContract.ISystemListView {
         }
     }
 
-    override fun updateSystemListData(refresh: Boolean) {
+    override fun updateSystemListData(refresh: Boolean, diffResult: DiffUtil.DiffResult) {
         if (refresh) {
             mSystemListSRL?.finishRefresh()
         } else {
             mSystemListSRL?.finishLoadMore()
         }
-        mSystemListAdapter.notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(mSystemListAdapter)
     }
 }

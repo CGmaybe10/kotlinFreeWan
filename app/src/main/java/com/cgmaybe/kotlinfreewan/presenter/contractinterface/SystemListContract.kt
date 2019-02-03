@@ -1,5 +1,6 @@
 package com.cgmaybe.kotlinfreewan.presenter.contractinterface
 
+import android.support.v7.util.DiffUtil
 import com.cgmaybe.kotlinfreewan.presenter.presenterinterface.IBasePresenter
 import com.cgmaybe.kotlinfreewan.ui.viewinterface.IBaseView
 
@@ -9,6 +10,6 @@ interface SystemListContract {
     }
 
     interface ISystemListView : IBaseView {
-        fun updateSystemListData(refresh: Boolean)
+        fun updateSystemListData(refresh: Boolean, diffResult: DiffUtil.DiffResult)
     }
 }

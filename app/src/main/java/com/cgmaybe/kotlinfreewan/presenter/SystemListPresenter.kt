@@ -1,11 +1,12 @@
 package com.cgmaybe.kotlinfreewan.presenter
 
+import android.support.v7.util.DiffUtil
 import android.util.Log
 import com.cgmaybe.kotlinfreewan.data.bean.SystemItemDetail
 import com.cgmaybe.kotlinfreewan.data.remote.ApiService
 import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.SystemListContract
-import io.reactivex.Observable
+import com.cgmaybe.kotlinfreewan.widget.recyclerview.RVDiffUtilCallback
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -18,11 +19,12 @@ class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListVie
     private val mSystemCategoryData = arrayListOf<SystemItemDetail>()
 
     override fun requestSystemListData(categoryId: Int, refresh: Boolean) {
+        val newData = arrayListOf<SystemItemDetail>()
         if (refresh) {
-            mSystemCategoryData.clear()
             mSystemPage = 0
         } else {
             mSystemPage++
+            newData.addAll(mSystemCategoryData)
         }
         Log.d("moubiao", "page $mSystemPage id = $categoryId")
         val apiService = RetrofitHelper.getRetrofit().create(ApiService::class.java)
@@ -33,21 +35,25 @@ class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListVie
 
             }
             .subscribeOn(AndroidSchedulers.mainThread())
-            .flatMap { result ->
-                Observable.fromIterable(result.data.datas)
+            .map { result ->
+                result.data.datas
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<SystemItemDetail> {
+            .subscribe(object : Observer<List<SystemItemDetail>> {
 
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(result: SystemItemDetail) {
-                    mSystemCategoryData.add(result)
+                override fun onNext(result: List<SystemItemDetail>) {
+                    newData.addAll(result)
+                    val diffCallback = RVDiffUtilCallback(mSystemCategoryData, newData)
+                    val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback)
+                    mSystemCategoryData.clear()
+                    mSystemCategoryData.addAll(newData)
+                    mSystemListView.updateSystemListData(refresh, diffResult)
                 }
 
                 override fun onComplete() {
-                    mSystemListView.updateSystemListData(refresh)
                 }
 
                 override fun onError(e: Throwable) {
