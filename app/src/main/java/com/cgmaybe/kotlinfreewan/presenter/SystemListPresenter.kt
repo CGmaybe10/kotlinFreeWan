@@ -47,7 +47,7 @@ class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListVie
                 override fun onNext(result: List<SystemItemDetail>) {
                     newData.addAll(result)
                     val diffCallback = RVDiffUtilCallback(mSystemCategoryData, newData)
-                    val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback)
+                    val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback, false)
                     mSystemCategoryData.clear()
                     mSystemCategoryData.addAll(newData)
                     mSystemListView.updateSystemListData(refresh, diffResult)
