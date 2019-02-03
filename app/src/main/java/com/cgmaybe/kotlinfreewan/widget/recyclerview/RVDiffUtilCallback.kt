@@ -5,6 +5,7 @@ import com.cgmaybe.kotlinfreewan.data.bean.SystemItemDetail
 
 /**
  * recyclerView的diffUtil刷新工具
+ * 参考：http://www.10tiao.com/html/169/201610/2650821170/1.html
  */
 class RVDiffUtilCallback(
     private val mOldData: List<SystemItemDetail>,
