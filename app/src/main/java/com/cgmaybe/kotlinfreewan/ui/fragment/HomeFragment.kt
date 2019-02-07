@@ -1,6 +1,7 @@
 package com.cgmaybe.kotlinfreewan.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +11,9 @@ import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.presenter.HomePresenter
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.HomeContract
+import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
+import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity.Companion.COMMON_DETAIL_TITLE
+import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity.Companion.COMMON_DETAIL_URL
 import com.cgmaybe.kotlinfreewan.ui.adapter.HomeAdapter
 import kotlinx.android.synthetic.main.home_layout.*
 
@@ -51,6 +55,13 @@ class HomeFragment : Fragment(), HomeContract.HomeView {
         }
         mHomeSRL.setOnLoadMoreListener {
             mHomePresenter.loadMoreData()
+        }
+
+        mHomeAdapter.setItemClickListener { _, position: Int ->
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra(COMMON_DETAIL_TITLE, mHomePresenter.getHomeData()[position].mItemBean?.title)
+            intent.putExtra(COMMON_DETAIL_URL, mHomePresenter.getHomeData()[position].mItemBean?.link)
+            startActivity(intent)
         }
     }
 

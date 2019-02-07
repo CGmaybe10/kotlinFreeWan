@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.data.bean.NavigationEntity
+import com.cgmaybe.kotlinfreewan.widget.recyclerview.interfaces.ItemClick
 import kotlinx.android.synthetic.main.navigation_content_item.view.*
 import kotlinx.android.synthetic.main.navigation_group_item.view.*
 
@@ -18,6 +19,7 @@ class NavigationContentAdapter(private val mContext: Context, private val mNaFin
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var mSelectedGroupId = -1
+    private var mNaItemClickListener: ItemClick? = null
 
     init {
         if (mNaFinalData.size > 0) {
@@ -54,6 +56,9 @@ class NavigationContentAdapter(private val mContext: Context, private val mNaFin
         } else {
             viewHolder as NaContentVH
             viewHolder.naContentTV.text = contentData.mChild.title
+            viewHolder.itemView.setOnClickListener {
+                mNaItemClickListener?.invoke(viewHolder.itemView, position)
+            }
         }
     }
 
@@ -63,6 +68,10 @@ class NavigationContentAdapter(private val mContext: Context, private val mNaFin
 
     fun getSelectedGroupId(): Int {
         return mSelectedGroupId
+    }
+
+    fun setItemClickListener(clickListener: ItemClick) {
+        mNaItemClickListener = clickListener
     }
 
     class NaGroupVH(itemView: View) : RecyclerView.ViewHolder(itemView) {

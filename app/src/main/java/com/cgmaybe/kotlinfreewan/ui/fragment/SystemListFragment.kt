@@ -1,6 +1,7 @@
 package com.cgmaybe.kotlinfreewan.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.util.DiffUtil
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.presenter.SystemListPresenter
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.SystemListContract
+import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
 import com.cgmaybe.kotlinfreewan.ui.adapter.SystemListAdapter
 import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment.Companion.SYSTEM_CATEGORY_ID
 import kotlinx.android.synthetic.main.system_list_layout.*
@@ -55,6 +57,13 @@ class SystemListFragment : Fragment(), SystemListContract.ISystemListView {
                 arguments?.getInt(SYSTEM_CATEGORY_ID) ?: 0,
                 false
             )
+        }
+
+        mSystemListAdapter.setItemClickListener { _, position: Int ->
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_TITLE, mSystemPresenter.getListData()[position].title)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_URL, mSystemPresenter.getListData()[position].link)
+            startActivity(intent)
         }
     }
 

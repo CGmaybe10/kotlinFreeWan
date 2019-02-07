@@ -1,6 +1,7 @@
 package com.cgmaybe.kotlinfreewan.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.data.bean.HomeDataBean
+import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
 import com.cgmaybe.kotlinfreewan.utils.getTimeInterval
+import com.cgmaybe.kotlinfreewan.widget.recyclerview.interfaces.ItemClick
 import com.cgmaybe.kotlinfreewan.widget.youthbanner.BannerImageLoader
 import com.orhanobut.logger.Logger
 import com.youth.banner.Banner
@@ -22,6 +25,8 @@ import kotlinx.android.synthetic.main.home_tool_item.view.*
  */
 class HomeAdapter(private val mContext: Context, private val mHomeData: List<HomeDataBean>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var mHomeItemClickListener: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (mHomeData[viewType].mHomeType) {
@@ -58,6 +63,19 @@ class HomeAdapter(private val mContext: Context, private val mHomeData: List<Hom
                 bannerHolder.homeBannerView.setImages(imageData)
                 bannerHolder.homeBannerView.setBannerTitles(titleData)
                 bannerHolder.homeBannerView.start()
+
+                bannerHolder.homeBannerView.setOnBannerListener { bannerPosition ->
+                    val intent = Intent(mContext, DetailActivity::class.java)
+                    intent.putExtra(
+                        DetailActivity.COMMON_DETAIL_TITLE,
+                        mHomeData[position].mHomeBanner?.get(bannerPosition)?.title
+                    )
+                    intent.putExtra(
+                        DetailActivity.COMMON_DETAIL_URL,
+                        mHomeData[position].mHomeBanner?.get(bannerPosition)?.url
+                    )
+                    mContext.startActivity(intent)
+                }
             }
             HOME_AREA_TYPE -> {//常用专区
                 val toolHolder = viewHolder as HomeToolHolder
@@ -81,7 +99,12 @@ class HomeAdapter(private val mContext: Context, private val mHomeData: List<Hom
                 )
                 blogHolder.homeBlogCategoryTV.text = category
 
-                blogHolder.homeBlogDateTV.text = getTimeInterval(mHomeData[position].mItemBean!!.publishTime, "dd/MM/yy")
+                blogHolder.homeBlogDateTV.text =
+                        getTimeInterval(mHomeData[position].mItemBean!!.publishTime, "dd/MM/yy")
+
+                blogHolder.itemView.setOnClickListener {
+                    mHomeItemClickListener?.invoke(blogHolder.itemView, position)
+                }
             }
 
         }
@@ -94,6 +117,10 @@ class HomeAdapter(private val mContext: Context, private val mHomeData: List<Hom
             homeBannerView.setImageLoader(BannerImageLoader())
             homeBannerView.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
         }
+    }
+
+    fun setItemClickListener(clickListener: ItemClick) {
+        mHomeItemClickListener = clickListener
     }
 
     class HomeToolHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

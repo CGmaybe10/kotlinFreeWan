@@ -1,6 +1,7 @@
 package com.cgmaybe.kotlinfreewan.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.*
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.presenter.NavigationPresenter
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.NavigationContract
+import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
 import com.cgmaybe.kotlinfreewan.ui.adapter.NavigationContentAdapter
 import com.cgmaybe.kotlinfreewan.ui.adapter.NavigationContentAdapter.Companion.GROUP_TYPE
 import com.cgmaybe.kotlinfreewan.ui.adapter.NavigationIndicatorAdapter
@@ -119,6 +121,13 @@ class NavigationFragment : Fragment(), NavigationContract.INavigationView {
                 }
             }
         })
+
+        mNaContentAdapter.setItemClickListener { _, position ->
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_TITLE, mNaPresenter.mNaFinalData[position].mChild.title)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_URL, mNaPresenter.mNaFinalData[position].mChild.link)
+            startActivity(intent)
+        }
     }
 
     override fun updateNavigationUi() {

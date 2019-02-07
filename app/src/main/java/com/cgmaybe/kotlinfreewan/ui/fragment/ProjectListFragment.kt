@@ -1,5 +1,6 @@
 package com.cgmaybe.kotlinfreewan.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.presenter.ProjectListPresenter
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.ProjectListContract
+import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
 import com.cgmaybe.kotlinfreewan.ui.adapter.ProjectListAdapter
 import kotlinx.android.synthetic.main.project_list_layout.*
 
@@ -47,6 +49,13 @@ class ProjectListFragment : Fragment(), ProjectListContract.IProjectListView {
 
         mProjectSRL.setOnLoadMoreListener {
             mProjectListPresenter.getCategoryListData(arguments?.getInt(PROJECT_CATEGORY_ID) ?: 0, false)
+        }
+
+        mProjectListAdapter.setItemClickListener { _, position: Int ->
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_TITLE, mProjectListPresenter.getListData()[position].title)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_URL, mProjectListPresenter.getListData()[position].link)
+            startActivity(intent)
         }
     }
 

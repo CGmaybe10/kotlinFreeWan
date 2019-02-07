@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 import com.cgmaybe.kotlinfreewan.utils.getTimeInterval
+import com.cgmaybe.kotlinfreewan.widget.recyclerview.interfaces.ItemClick
 import kotlinx.android.synthetic.main.project_item.view.*
 
 /**
@@ -18,6 +19,8 @@ import kotlinx.android.synthetic.main.project_item.view.*
  */
 class ProjectListAdapter(private val mContext: Context, private val mProjectData: MutableList<ItemDetailBean>) :
     RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>() {
+
+    private var mProjectItemClickListener: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): ProjectListAdapter.ProjectViewHolder {
         return ProjectViewHolder(LayoutInflater.from(mContext).inflate(R.layout.project_item, parent, false))
@@ -34,6 +37,14 @@ class ProjectListAdapter(private val mContext: Context, private val mProjectData
         viewHolder.projectDescTV.text = detailData.desc
         viewHolder.projectAuthorTV.text = detailData.author
         viewHolder.projectDateTV.text = getTimeInterval(detailData.publishTime, "dd/MM/yy")
+
+        viewHolder.itemView.setOnClickListener {
+            mProjectItemClickListener?.invoke(viewHolder.itemView, position)
+        }
+    }
+
+    fun setItemClickListener(clickListener: ItemClick) {
+        mProjectItemClickListener = clickListener
     }
 
     class ProjectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

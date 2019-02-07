@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 import com.cgmaybe.kotlinfreewan.utils.getTimeInterval
+import com.cgmaybe.kotlinfreewan.widget.recyclerview.interfaces.ItemClick
 import kotlinx.android.synthetic.main.system_item.view.*
 
 /**
@@ -16,6 +17,8 @@ import kotlinx.android.synthetic.main.system_item.view.*
  */
 class SystemListAdapter(private val mContext: Context, private val mSystemData: MutableList<ItemDetailBean>) :
     RecyclerView.Adapter<SystemListAdapter.SystemViewHolder>() {
+
+    private var mProjectItemClickListener: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SystemViewHolder {
         return SystemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.system_item, parent, false))
@@ -30,6 +33,14 @@ class SystemListAdapter(private val mContext: Context, private val mSystemData: 
         holder.systemTitleTV.text = data.title
         holder.systemAuthorTV.text = data.author
         holder.systemDateTimeTV.text = getTimeInterval(data.publishTime, "dd/MM/yy")
+
+        holder.itemView.setOnClickListener {
+            mProjectItemClickListener?.invoke(holder.itemView, position)
+        }
+    }
+
+    fun setItemClickListener(clickListener: ItemClick) {
+        mProjectItemClickListener = clickListener
     }
 
     class SystemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

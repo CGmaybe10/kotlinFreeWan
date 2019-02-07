@@ -14,7 +14,7 @@
         tl:layout_constraintTop_toTopOf="parent"
         tl:tl_indicator_corner_radius="1.5dp"
         tl:tl_indicator_height="3dp"
-        tl:tl_indicator_width="10dp" />
+        tl:tl_indicator_width="24dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/mProjectVP"
