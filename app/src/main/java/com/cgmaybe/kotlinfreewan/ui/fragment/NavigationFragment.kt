@@ -114,7 +114,7 @@ class NavigationFragment : Fragment(), NavigationContract.INavigationView {
                     if (mNaPresenter.mNaFinalData[mContentLM.findFirstVisibleItemPosition()].mGroupId == mNaIndicatorAdapter.getSelectedGroupId()) {
                         mStickyGroupTV.setTextColor(resources.getColor(R.color.na_selected_group_color))
                     } else {
-                        mStickyGroupTV.setTextColor(resources.getColor(R.color.na_unselected_group_color))
+                        mStickyGroupTV.setTextColor(resources.getColor(R.color.na_group_color))
                     }
                 }
             }
