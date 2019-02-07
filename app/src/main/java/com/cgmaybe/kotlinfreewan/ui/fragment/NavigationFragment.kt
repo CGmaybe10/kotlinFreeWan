@@ -3,13 +3,14 @@ package com.cgmaybe.kotlinfreewan.ui.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.*
 import android.support.v7.widget.GridLayoutManager.SpanSizeLookup
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
+import com.cgmaybe.kotlinfreewan.data.bean.NavigationBean
+import com.cgmaybe.kotlinfreewan.data.bean.NavigationEntity
 import com.cgmaybe.kotlinfreewan.presenter.NavigationPresenter
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.NavigationContract
 import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
@@ -17,23 +18,37 @@ import com.cgmaybe.kotlinfreewan.ui.adapter.NavigationContentAdapter
 import com.cgmaybe.kotlinfreewan.ui.adapter.NavigationContentAdapter.Companion.GROUP_TYPE
 import com.cgmaybe.kotlinfreewan.ui.adapter.NavigationIndicatorAdapter
 import kotlinx.android.synthetic.main.navigation_layout.*
+import java.util.*
 
 /**
  * 导航页面
  */
-class NavigationFragment : Fragment(), NavigationContract.INavigationView {
+class NavigationFragment : LazyFragment<NavigationBean>(), NavigationContract.INavigationView {
     private lateinit var mNaPresenter: NavigationPresenter
     private lateinit var mNaIndicatorAdapter: NavigationIndicatorAdapter
     private lateinit var mNaContentAdapter: NavigationContentAdapter
     private lateinit var mIndicatorLM: LinearLayoutManager
     private lateinit var mContentLM: GridLayoutManager
+    private lateinit var mDetailData: ArrayList<NavigationEntity>
     private var mFromIndicator = false
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList("data", mData)
+        outState.putParcelableArrayList("detailData", mDetailData)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mNaPresenter = NavigationPresenter(this)
-        mNaIndicatorAdapter = NavigationIndicatorAdapter(activity as Context, mNaPresenter.mNaIndicatorData)
-        mNaContentAdapter = NavigationContentAdapter(activity as Context, mNaPresenter.mNaFinalData)
+        mDetailData = when (savedInstanceState != null) {
+            true -> savedInstanceState.getParcelableArrayList("detailData") ?: ArrayList()
+            false -> ArrayList()
+        }
+
+        mNaPresenter = NavigationPresenter(this, mData, mDetailData)
+        mNaIndicatorAdapter = NavigationIndicatorAdapter(activity as Context, mData)
+        mNaContentAdapter = NavigationContentAdapter(activity as Context, mDetailData)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,14 +75,12 @@ class NavigationFragment : Fragment(), NavigationContract.INavigationView {
         mNaContentRV.layoutManager = mContentLM
         mNaContentRV.adapter = mNaContentAdapter
 
-        mNaPresenter.getNavigationData()
-
         setListener()
     }
 
     private fun setListener() {
         mNaIndicatorAdapter.setOnItemClickListener { _, position: Int ->
-            val groupId = mNaPresenter.mNaIndicatorData[position].cid
+            val groupId = mData[position].cid
             for (index in mNaPresenter.mNaFinalData.indices) {
                 if (groupId == mNaPresenter.mNaFinalData[index].mGroupId) {
                     mFromIndicator = true
@@ -130,10 +143,14 @@ class NavigationFragment : Fragment(), NavigationContract.INavigationView {
         }
     }
 
+    override fun loadData() {
+        mNaPresenter.getNavigationData()
+    }
+
     override fun updateNavigationUi() {
-        mStickyGroupTV.text = mNaPresenter.mNaIndicatorData[0].name
-        mNaIndicatorAdapter.setSelectedGroupId(mNaPresenter.mNaFinalData[0].mGroupId)
-        mNaContentAdapter.setSelectedGroupId(mNaPresenter.mNaFinalData[0].mGroupId)
+        mStickyGroupTV.text = mData[0].name
+        mNaIndicatorAdapter.setSelectedGroupId(mDetailData[0].mGroupId)
+        mNaContentAdapter.setSelectedGroupId(mDetailData[0].mGroupId)
         mNaIndicatorAdapter.notifyDataSetChanged()
         mNaContentAdapter.notifyDataSetChanged()
     }

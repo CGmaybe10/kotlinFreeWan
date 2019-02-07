@@ -12,11 +12,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListView) :
+class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListView, private val mSystemCategoryData: MutableList<ItemDetailBean>) :
     SystemListContract.ISystemListPresenter {
 
     private var mSystemPage = 0
-    private val mSystemCategoryData = arrayListOf<ItemDetailBean>()
 
     override fun requestSystemListData(categoryId: Int, refresh: Boolean) {
         val newData = arrayListOf<ItemDetailBean>()
@@ -60,9 +59,5 @@ class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListVie
                     e.printStackTrace()
                 }
             })
-    }
-
-    fun getListData(): MutableList<ItemDetailBean> {
-        return mSystemCategoryData
     }
 }

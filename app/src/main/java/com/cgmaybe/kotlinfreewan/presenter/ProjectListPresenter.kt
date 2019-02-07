@@ -10,10 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ProjectListPresenter(private val mCategoryListView: ProjectListContract.IProjectListView) :
+class ProjectListPresenter(private val mCategoryListView: ProjectListContract.IProjectListView, private val mProjectCategoryData: MutableList<ItemDetailBean>) :
     ProjectListContract.IProjectListPresenter {
     private var mProjectPage = 1
-    private val mProjectCategoryData = arrayListOf<ItemDetailBean>()
 
     override fun getCategoryListData(categoryId: Int, refresh: Boolean) {
 
@@ -51,9 +50,5 @@ class ProjectListPresenter(private val mCategoryListView: ProjectListContract.IP
                     e.printStackTrace()
                 }
             })
-    }
-
-    fun getListData(): MutableList<ItemDetailBean> {
-        return mProjectCategoryData
     }
 }

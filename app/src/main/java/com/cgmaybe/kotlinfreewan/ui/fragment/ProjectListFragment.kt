@@ -2,12 +2,12 @@ package com.cgmaybe.kotlinfreewan.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
+import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 import com.cgmaybe.kotlinfreewan.presenter.ProjectListPresenter
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.ProjectListContract
 import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
@@ -17,15 +17,15 @@ import kotlinx.android.synthetic.main.project_list_layout.*
 /**
  * 项目列表页面的fragment
  */
-class ProjectListFragment : Fragment(), ProjectListContract.IProjectListView {
+class ProjectListFragment : LazyFragment<ItemDetailBean>(), ProjectListContract.IProjectListView {
     private lateinit var mProjectListPresenter: ProjectListPresenter
     private lateinit var mProjectListAdapter: ProjectListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mProjectListPresenter = ProjectListPresenter(this)
-        mProjectListAdapter = ProjectListAdapter(activity!!, mProjectListPresenter.getListData())
+        mProjectListPresenter = ProjectListPresenter(this, mData)
+        mProjectListAdapter = ProjectListAdapter(activity!!, mData)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,13 +33,12 @@ class ProjectListFragment : Fragment(), ProjectListContract.IProjectListView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         mProjectRV.layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
         mProjectRV.adapter = mProjectListAdapter
 
-        mProjectListPresenter.getCategoryListData(arguments?.getInt(PROJECT_CATEGORY_ID) ?: 0, true)
         setListener()
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setListener() {
@@ -53,10 +52,14 @@ class ProjectListFragment : Fragment(), ProjectListContract.IProjectListView {
 
         mProjectListAdapter.setItemClickListener { _, position: Int ->
             val intent = Intent(activity, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.COMMON_DETAIL_TITLE, mProjectListPresenter.getListData()[position].title)
-            intent.putExtra(DetailActivity.COMMON_DETAIL_URL, mProjectListPresenter.getListData()[position].link)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_TITLE, mData[position].title)
+            intent.putExtra(DetailActivity.COMMON_DETAIL_URL, mData[position].link)
             startActivity(intent)
         }
+    }
+
+    override fun loadData() {
+        mProjectListPresenter.getCategoryListData(arguments?.getInt(PROJECT_CATEGORY_ID) ?: 0, true)
     }
 
     override fun updateCategoryList(refresh: Boolean) {

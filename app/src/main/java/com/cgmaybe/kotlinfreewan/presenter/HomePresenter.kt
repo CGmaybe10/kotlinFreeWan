@@ -15,9 +15,8 @@ import io.reactivex.schedulers.Schedulers
 /**
  * 首页的presenter
  */
-class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.HomePresenter {
+class HomePresenter(private val homeView: HomeContract.HomeView, private val mHomeData: MutableList<HomeDataBean>) : HomeContract.HomePresenter {
     private var mHomePage = 0
-    private val mHomeData: MutableList<HomeDataBean> = arrayListOf()
 
     /**
      * 刷新数据
@@ -88,12 +87,5 @@ class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.
                 }
 
             })
-    }
-
-    /**
-     * 获取首页数据
-     */
-    fun getHomeData(): MutableList<HomeDataBean> {
-        return mHomeData
     }
 }

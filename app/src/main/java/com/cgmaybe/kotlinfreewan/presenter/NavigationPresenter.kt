@@ -13,11 +13,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class NavigationPresenter(private val mNavigationView: NavigationContract.INavigationView) :
+class NavigationPresenter(
+    private val mNavigationView: NavigationContract.INavigationView,
+    val mNaIndicatorData: MutableList<NavigationBean>, val mNaFinalData: MutableList<NavigationEntity>
+) :
     NavigationContract.INavigationPresenter {
-
-    val mNaIndicatorData = arrayListOf<NavigationBean>()
-    val mNaFinalData = arrayListOf<NavigationEntity>()
 
     override fun getNavigationData() {
         var groupIndex = -1

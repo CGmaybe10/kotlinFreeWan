@@ -3,12 +3,12 @@ package com.cgmaybe.kotlinfreewan.ui.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
+import com.cgmaybe.kotlinfreewan.data.bean.HomeDataBean
 import com.cgmaybe.kotlinfreewan.presenter.HomePresenter
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.HomeContract
 import com.cgmaybe.kotlinfreewan.ui.activity.DetailActivity
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.home_layout.*
 /**
  * 首页fragment
  */
-class HomeFragment : Fragment(), HomeContract.HomeView {
+class HomeFragment : LazyFragment<HomeDataBean>(), HomeContract.HomeView {
     private lateinit var mHomePresenter: HomePresenter
     private lateinit var mHomeAdapter: HomeAdapter
 
@@ -31,8 +31,8 @@ class HomeFragment : Fragment(), HomeContract.HomeView {
     }
 
     private fun initData() {
-        mHomePresenter = HomePresenter(this)
-        mHomeAdapter = HomeAdapter(activity as Context, mHomePresenter.getHomeData())
+        mHomePresenter = HomePresenter(this, mData)
+        mHomeAdapter = HomeAdapter(activity as Context, mData)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,13 +40,11 @@ class HomeFragment : Fragment(), HomeContract.HomeView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         mHomeRV.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mHomeRV.adapter = mHomeAdapter
-        mHomePresenter.refreshData()
-
         setListener()
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setListener() {
@@ -59,10 +57,14 @@ class HomeFragment : Fragment(), HomeContract.HomeView {
 
         mHomeAdapter.setItemClickListener { _, position: Int ->
             val intent = Intent(activity, DetailActivity::class.java)
-            intent.putExtra(COMMON_DETAIL_TITLE, mHomePresenter.getHomeData()[position].mItemBean?.title)
-            intent.putExtra(COMMON_DETAIL_URL, mHomePresenter.getHomeData()[position].mItemBean?.link)
+            intent.putExtra(COMMON_DETAIL_TITLE, mData[position].mItemBean?.title)
+            intent.putExtra(COMMON_DETAIL_URL, mData[position].mItemBean?.link)
             startActivity(intent)
         }
+    }
+
+    override fun loadData() {
+        mHomePresenter.refreshData()
     }
 
     /**
