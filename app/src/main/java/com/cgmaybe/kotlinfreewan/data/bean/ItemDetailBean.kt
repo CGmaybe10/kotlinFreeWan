@@ -1,6 +1,6 @@
 package com.cgmaybe.kotlinfreewan.data.bean
 
-data class HomeBlogDetail(
+data class ItemDetailBean(
     val apkLink: String,
     val author: String,
     val chapterId: Int,
@@ -18,7 +18,7 @@ data class HomeBlogDetail(
     val publishTime: Long,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Tag>,
+    val tags: List<TagBean>,
     val title: String,
     val type: Int,
     val userId: Int,

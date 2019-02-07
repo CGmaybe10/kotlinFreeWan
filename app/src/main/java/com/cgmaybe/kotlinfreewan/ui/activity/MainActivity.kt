@@ -10,6 +10,7 @@ import com.cgmaybe.kotlinfreewan.R
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.MainContract
 import com.cgmaybe.kotlinfreewan.ui.adapter.MainAdapter
 import com.cgmaybe.kotlinfreewan.ui.fragment.HomeFragment
+import com.cgmaybe.kotlinfreewan.ui.fragment.NavigationFragment
 import com.cgmaybe.kotlinfreewan.ui.fragment.ProjectFragment
 import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment
 import com.orhanobut.logger.AndroidLogAdapter
@@ -48,6 +49,7 @@ class MainActivity : BaseActivity(), MainContract.MainView {
         mainData.add(HomeFragment())
         mainData.add(SystemFragment())
         mainData.add(ProjectFragment())
+        mainData.add(NavigationFragment())
         mMainVP.adapter = MainAdapter(supportFragmentManager, mainData)
     }
 

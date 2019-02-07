@@ -1,22 +1,20 @@
 package com.cgmaybe.kotlinfreewan.presenter.contractinterface
 
-import android.support.v4.app.Fragment
 import com.cgmaybe.kotlinfreewan.presenter.presenterinterface.IBasePresenter
 import com.cgmaybe.kotlinfreewan.ui.viewinterface.IBaseView
 
-interface SystemContract {
-
-    interface ISystemCategoryPresenter : IBasePresenter {
+interface NavigationContract {
+    interface INavigationPresenter : IBasePresenter {
         /**
          * 获取分类数据
          */
-        fun getSystemCategoryData()
+        fun getNavigationData()
     }
 
-    interface ISystemCategoryView : IBaseView {
+    interface INavigationView : IBaseView {
         /**
          * 更新分类view
          */
-        fun updateSystemCategory(categoryTitle: Array<String>, topCateFg: MutableList<Fragment>)
+        fun updateNavigationUi()
     }
 }

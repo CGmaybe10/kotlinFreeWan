@@ -1,7 +1,7 @@
 package com.cgmaybe.kotlinfreewan.presenter
 
-import com.cgmaybe.kotlinfreewan.data.bean.HomeBlogDetail
-import com.cgmaybe.kotlinfreewan.data.bean.HomeData
+import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
+import com.cgmaybe.kotlinfreewan.data.bean.HomeDataBean
 import com.cgmaybe.kotlinfreewan.data.remote.ApiService
 import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.HomeContract
@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.HomePresenter {
     private var mHomePage = 0
-    private val mHomeData: MutableList<HomeData> = arrayListOf()
+    private val mHomeData: MutableList<HomeDataBean> = arrayListOf()
 
     /**
      * 刷新数据
@@ -28,22 +28,22 @@ class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.
         apiService.getHomeBanner()//请求banner的数据
             .flatMap { bannerData ->
                 mHomeData.clear()
-                mHomeData.add(HomeData(HomeAdapter.HOME_BANNER_TYPE, bannerData.data, null))
-                mHomeData.add(HomeData(HomeAdapter.HOME_AREA_TYPE, null, null))
+                mHomeData.add(HomeDataBean(HomeAdapter.HOME_BANNER_TYPE, bannerData.data, null))
+                mHomeData.add(HomeDataBean(HomeAdapter.HOME_AREA_TYPE, null, null))
                 apiService.getHomeBlog(mHomePage)//请求博客列表
             }
             .flatMap { blogData ->
-                Observable.fromIterable(blogData.data.blogList)
+                Observable.fromIterable(blogData.data.blogListBean)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<HomeBlogDetail> {
+            .subscribe(object : Observer<ItemDetailBean> {
 
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(blogItem: HomeBlogDetail) {
-                    mHomeData.add(HomeData(HomeAdapter.HOME_BLOG_TYPE, null, blogItem))
+                override fun onNext(blogItemBean: ItemDetailBean) {
+                    mHomeData.add(HomeDataBean(HomeAdapter.HOME_BLOG_TYPE, null, blogItemBean))
                 }
 
                 override fun onComplete() {
@@ -66,17 +66,17 @@ class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.
         apiService
             .getHomeBlog(mHomePage)
             .flatMap { blogData ->
-                Observable.fromIterable(blogData.data.blogList)
+                Observable.fromIterable(blogData.data.blogListBean)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<HomeBlogDetail> {
+            .subscribe(object : Observer<ItemDetailBean> {
 
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(blogItem: HomeBlogDetail) {
-                    mHomeData.add(HomeData(HomeAdapter.HOME_BLOG_TYPE, null, blogItem))
+                override fun onNext(blogItemBean: ItemDetailBean) {
+                    mHomeData.add(HomeDataBean(HomeAdapter.HOME_BLOG_TYPE, null, blogItemBean))
                 }
 
                 override fun onComplete() {
@@ -93,7 +93,7 @@ class HomePresenter(private val homeView: HomeContract.HomeView) : HomeContract.
     /**
      * 获取首页数据
      */
-    fun getHomeData(): MutableList<HomeData> {
+    fun getHomeData(): MutableList<HomeDataBean> {
         return mHomeData
     }
 }

@@ -1,6 +1,6 @@
 package com.cgmaybe.kotlinfreewan.presenter
 
-import com.cgmaybe.kotlinfreewan.data.bean.SystemItemDetail
+import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 import com.cgmaybe.kotlinfreewan.data.remote.ApiService
 import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.ProjectListContract
@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 class ProjectListPresenter(private val mCategoryListView: ProjectListContract.IProjectListView) :
     ProjectListContract.IProjectListPresenter {
     private var mProjectPage = 1
-    private val mProjectCategoryData = arrayListOf<SystemItemDetail>()
+    private val mProjectCategoryData = arrayListOf<ItemDetailBean>()
 
     override fun getCategoryListData(categoryId: Int, refresh: Boolean) {
 
@@ -34,12 +34,12 @@ class ProjectListPresenter(private val mCategoryListView: ProjectListContract.IP
                 Observable.fromIterable(result.data.datas)
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<SystemItemDetail> {
+            .subscribe(object : Observer<ItemDetailBean> {
 
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(result: SystemItemDetail) {
+                override fun onNext(result: ItemDetailBean) {
                     mProjectCategoryData.add(result)
                 }
 
@@ -53,7 +53,7 @@ class ProjectListPresenter(private val mCategoryListView: ProjectListContract.IP
             })
     }
 
-    fun getListData(): MutableList<SystemItemDetail> {
+    fun getListData(): MutableList<ItemDetailBean> {
         return mProjectCategoryData
     }
 }

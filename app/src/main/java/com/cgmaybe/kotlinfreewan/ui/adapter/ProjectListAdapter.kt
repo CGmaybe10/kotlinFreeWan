@@ -9,14 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.cgmaybe.kotlinfreewan.R
-import com.cgmaybe.kotlinfreewan.data.bean.SystemItemDetail
+import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 import com.cgmaybe.kotlinfreewan.utils.getTimeInterval
 import kotlinx.android.synthetic.main.project_item.view.*
 
 /**
  * 工程列表
  */
-class ProjectListAdapter(private val mContext: Context, private val mProjectData: MutableList<SystemItemDetail>) :
+class ProjectListAdapter(private val mContext: Context, private val mProjectData: MutableList<ItemDetailBean>) :
     RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): ProjectListAdapter.ProjectViewHolder {

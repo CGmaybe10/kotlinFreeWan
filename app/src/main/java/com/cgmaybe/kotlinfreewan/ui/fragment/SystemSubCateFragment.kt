@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cgmaybe.kotlinfreewan.R
-import com.cgmaybe.kotlinfreewan.data.bean.SystemCategoryItemDetail
+import com.cgmaybe.kotlinfreewan.data.bean.SystemCategoryItemDetailBean
 import com.cgmaybe.kotlinfreewan.ui.adapter.SystemSubAdapter
 import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment.Companion.SYSTEM_CATEGORY_ID
 import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment.Companion.SYSTEM_SUBCATEGORY_ID
@@ -28,8 +28,8 @@ class SystemSubCateFragment : Fragment() {
         val mSystemSubTitle: MutableList<String> = arrayListOf()
 
         val childrenStr = arguments?.getString(SYSTEM_SUBCATEGORY_ID)
-        val listFgData: List<SystemCategoryItemDetail> =
-            Gson().fromJson(childrenStr, object : TypeToken<List<SystemCategoryItemDetail>>() {}.type)
+        val listFgData: List<SystemCategoryItemDetailBean> =
+            Gson().fromJson(childrenStr, object : TypeToken<List<SystemCategoryItemDetailBean>>() {}.type)
         for (item in listFgData) {
             val sysListFragment = SystemListFragment()
             val bundle = Bundle()

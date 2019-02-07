@@ -7,4 +7,10 @@
     <color name="common_tool_bg_color">#01ABF9</color>
     <color name="common_tool_text_color">#ffffff</color>
     <color name="blogTextColor">#009a61</color>
+    <color name="na_selected_group_color">#4285f4</color>
+    <color name="na_unselected_group_color">#8A000000</color>
+    <color name="na_bg_color">#f3f3f3</color>
+    <color name="na_divider_color">#f0f0f0</color>
+    <color name="na_group_color">#000000</color>
+    <color name="na_group_indicator_color">#fbbc05</color>
 </resources>

@@ -1,6 +1,6 @@
 package com.cgmaybe.kotlinfreewan.data.bean
 
-data class SystemCategoryItemDetail(
+data class SystemCategoryItemDetailBean(
     val children: List<Any>,
     val courseId: Int,
     val id: Int,

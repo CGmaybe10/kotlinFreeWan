@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.cgmaybe.kotlinfreewan.R
-import com.cgmaybe.kotlinfreewan.data.bean.SystemItemDetail
+import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 import com.cgmaybe.kotlinfreewan.utils.getTimeInterval
 import kotlinx.android.synthetic.main.system_item.view.*
 
 /**
  * 体系列表的adapter
  */
-class SystemListAdapter(private val mContext: Context, private val mSystemData: MutableList<SystemItemDetail>) :
+class SystemListAdapter(private val mContext: Context, private val mSystemData: MutableList<ItemDetailBean>) :
     RecyclerView.Adapter<SystemListAdapter.SystemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SystemViewHolder {

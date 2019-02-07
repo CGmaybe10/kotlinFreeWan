@@ -1,15 +1,15 @@
 package com.cgmaybe.kotlinfreewan.widget.recyclerview
 
 import android.support.v7.util.DiffUtil
-import com.cgmaybe.kotlinfreewan.data.bean.SystemItemDetail
+import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 
 /**
  * recyclerView的diffUtil刷新工具
  * 参考：http://www.10tiao.com/html/169/201610/2650821170/1.html
  */
 class RVDiffUtilCallback(
-    private val mOldData: List<SystemItemDetail>,
-    private val mNewData: List<SystemItemDetail>
+    private val mOldData: List<ItemDetailBean>,
+    private val mNewData: List<ItemDetailBean>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

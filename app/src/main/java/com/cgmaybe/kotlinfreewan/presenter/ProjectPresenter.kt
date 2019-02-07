@@ -2,7 +2,7 @@ package com.cgmaybe.kotlinfreewan.presenter
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.cgmaybe.kotlinfreewan.data.bean.SystemCategoryDetail
+import com.cgmaybe.kotlinfreewan.data.bean.SystemCategoryDetailBean
 import com.cgmaybe.kotlinfreewan.data.remote.ApiService
 import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.ProjectContract
@@ -28,13 +28,13 @@ class ProjectPresenter(private val mProjectCategoryView: ProjectContract.IProjec
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<SystemCategoryDetail> {
+            .subscribe(object : Observer<SystemCategoryDetailBean> {
 
                 override fun onSubscribe(d: Disposable) {
 
                 }
 
-                override fun onNext(result: SystemCategoryDetail) {
+                override fun onNext(result: SystemCategoryDetailBean) {
                     mCategoryTitle.add(result.name)
                     val projectListFg = ProjectListFragment()
                     val bundle = Bundle()

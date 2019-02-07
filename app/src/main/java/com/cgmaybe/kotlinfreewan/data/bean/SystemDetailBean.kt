@@ -5,7 +5,7 @@ package com.cgmaybe.kotlinfreewan.data.bean
  */
 data class SystemDetailBean(
     val curPage: Int,
-    val datas: List<SystemItemDetail>,
+    val datas: List<ItemDetailBean>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,

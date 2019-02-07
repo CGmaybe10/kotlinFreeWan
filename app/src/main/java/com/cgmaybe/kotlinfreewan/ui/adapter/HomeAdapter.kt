@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.cgmaybe.kotlinfreewan.R
-import com.cgmaybe.kotlinfreewan.data.bean.HomeData
+import com.cgmaybe.kotlinfreewan.data.bean.HomeDataBean
 import com.cgmaybe.kotlinfreewan.utils.getTimeInterval
 import com.cgmaybe.kotlinfreewan.widget.youthbanner.BannerImageLoader
 import com.orhanobut.logger.Logger
@@ -16,13 +16,11 @@ import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.home_banner_item.view.*
 import kotlinx.android.synthetic.main.home_blog_item.view.*
 import kotlinx.android.synthetic.main.home_tool_item.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * 首页列表的adapter
  */
-class HomeAdapter(private val mContext: Context, private val mHomeData: List<HomeData>) :
+class HomeAdapter(private val mContext: Context, private val mHomeData: List<HomeDataBean>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -72,18 +70,18 @@ class HomeAdapter(private val mContext: Context, private val mHomeData: List<Hom
             }
             else -> {//博客
                 val blogHolder = viewHolder as HomeBlogHolder
-                blogHolder.homeBlogTitleTV.text = mHomeData[position].mHomeBlog?.title
-                blogHolder.homeBlogAuthorTV.text = mHomeData[position].mHomeBlog?.author
+                blogHolder.homeBlogTitleTV.text = mHomeData[position].mItemBean?.title
+                blogHolder.homeBlogAuthorTV.text = mHomeData[position].mItemBean?.author
                 val category = String.format(
                     mContext.getString(
                         R.string.home_blog_category,
-                        mHomeData[position].mHomeBlog?.superChapterName,
-                        mHomeData[position].mHomeBlog?.chapterName
+                        mHomeData[position].mItemBean?.superChapterName,
+                        mHomeData[position].mItemBean?.chapterName
                     )
                 )
                 blogHolder.homeBlogCategoryTV.text = category
 
-                blogHolder.homeBlogDateTV.text = getTimeInterval(mHomeData[position].mHomeBlog!!.publishTime, "dd/MM/yy")
+                blogHolder.homeBlogDateTV.text = getTimeInterval(mHomeData[position].mItemBean!!.publishTime, "dd/MM/yy")
             }
 
         }

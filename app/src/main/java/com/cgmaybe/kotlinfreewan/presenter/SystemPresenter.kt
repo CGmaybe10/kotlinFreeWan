@@ -2,13 +2,10 @@ package com.cgmaybe.kotlinfreewan.presenter
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.cgmaybe.kotlinfreewan.data.bean.SystemCategoryDetail
+import com.cgmaybe.kotlinfreewan.data.bean.SystemCategoryDetailBean
 import com.cgmaybe.kotlinfreewan.data.remote.ApiService
 import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.SystemContract
-import com.cgmaybe.kotlinfreewan.ui.fragment.ProjectListFragment
-import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment
-import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment.Companion.SYSTEM_CATEGORY_ID
 import com.cgmaybe.kotlinfreewan.ui.fragment.SystemFragment.Companion.SYSTEM_SUBCATEGORY_ID
 import com.cgmaybe.kotlinfreewan.ui.fragment.SystemSubCateFragment
 import com.google.gson.Gson
@@ -32,13 +29,13 @@ class SystemPresenter(private val mSysCateView: SystemContract.ISystemCategoryVi
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<SystemCategoryDetail> {
+            .subscribe(object : Observer<SystemCategoryDetailBean> {
 
                 override fun onSubscribe(d: Disposable) {
 
                 }
 
-                override fun onNext(result: SystemCategoryDetail) {
+                override fun onNext(result: SystemCategoryDetailBean) {
                     mSysCateTitle.add(result.name)
                     val systemCategoryFg = SystemSubCateFragment()//二级分类的fragment
                     val bundle = Bundle()

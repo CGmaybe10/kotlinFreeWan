@@ -2,7 +2,7 @@ package com.cgmaybe.kotlinfreewan.presenter
 
 import android.support.v7.util.DiffUtil
 import android.util.Log
-import com.cgmaybe.kotlinfreewan.data.bean.SystemItemDetail
+import com.cgmaybe.kotlinfreewan.data.bean.ItemDetailBean
 import com.cgmaybe.kotlinfreewan.data.remote.ApiService
 import com.cgmaybe.kotlinfreewan.data.remote.RetrofitHelper
 import com.cgmaybe.kotlinfreewan.presenter.contractinterface.SystemListContract
@@ -16,10 +16,10 @@ class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListVie
     SystemListContract.ISystemListPresenter {
 
     private var mSystemPage = 0
-    private val mSystemCategoryData = arrayListOf<SystemItemDetail>()
+    private val mSystemCategoryData = arrayListOf<ItemDetailBean>()
 
     override fun requestSystemListData(categoryId: Int, refresh: Boolean) {
-        val newData = arrayListOf<SystemItemDetail>()
+        val newData = arrayListOf<ItemDetailBean>()
         if (refresh) {
             mSystemPage = 0
         } else {
@@ -39,12 +39,12 @@ class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListVie
                 result.data.datas
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<SystemItemDetail>> {
+            .subscribe(object : Observer<List<ItemDetailBean>> {
 
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(result: List<SystemItemDetail>) {
+                override fun onNext(result: List<ItemDetailBean>) {
                     newData.addAll(result)
                     val diffCallback = RVDiffUtilCallback(mSystemCategoryData, newData)
                     val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback, false)
@@ -62,7 +62,7 @@ class SystemListPresenter(val mSystemListView: SystemListContract.ISystemListVie
             })
     }
 
-    fun getListData(): MutableList<SystemItemDetail> {
+    fun getListData(): MutableList<ItemDetailBean> {
         return mSystemCategoryData
     }
 }
