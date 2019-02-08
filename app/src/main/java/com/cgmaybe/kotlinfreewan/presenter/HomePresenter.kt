@@ -28,7 +28,7 @@ class HomePresenter(private val homeView: HomeContract.HomeView, private val mHo
             .flatMap { bannerData ->
                 mHomeData.clear()
                 mHomeData.add(HomeDataBean(HomeAdapter.HOME_BANNER_TYPE, bannerData.data, null))
-                mHomeData.add(HomeDataBean(HomeAdapter.HOME_AREA_TYPE, null, null))
+//                mHomeData.add(HomeDataBean(HomeAdapter.HOME_AREA_TYPE, null, null))
                 apiService.getHomeBlog(mHomePage)//请求博客列表
             }
             .flatMap { blogData ->
