@@ -38,7 +38,9 @@ class SystemSubCateFragment : Fragment() {
             mSystemSubFg.add(sysListFragment)
             mSystemSubTitle.add(item.name)
         }
-        mSystemSubCateVP.adapter = SystemSubAdapter(childFragmentManager, mSystemSubFg)//这里要用childFragmentManager，否则无法显示出来
+        mSystemSubCateVP.offscreenPageLimit = 2
+        mSystemSubCateVP.adapter =
+                SystemSubAdapter(childFragmentManager, mSystemSubFg)//这里要用childFragmentManager，否则无法显示出来
         mSystemSubCateSTL.setViewPager(mSystemSubCateVP, mSystemSubTitle.toTypedArray())
     }
 }

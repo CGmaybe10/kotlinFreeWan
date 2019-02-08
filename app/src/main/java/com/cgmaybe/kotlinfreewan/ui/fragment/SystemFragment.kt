@@ -34,6 +34,7 @@ class SystemFragment : Fragment(), SystemContract.ISystemCategoryView {
     }
 
     override fun updateSystemCategory(categoryTitle: Array<String>, topCateFg: MutableList<Fragment>) {
+        mSystemVP.offscreenPageLimit = 2
         mSystemVP.adapter = SystemAdapter(fragmentManager!!, topCateFg)
         mSystemSTL.setViewPager(mSystemVP, categoryTitle)
     }

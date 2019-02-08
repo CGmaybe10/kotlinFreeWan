@@ -34,6 +34,7 @@ class ProjectFragment : Fragment(), ProjectContract.IProjectView {
     }
 
     override fun updateProjectCategory(categoryTitle: Array<String>, categoryFg: MutableList<Fragment>) {
+        mProjectVP.offscreenPageLimit = 2
         mProjectVP.adapter = ProjectAdapter(fragmentManager!!, categoryFg)
         mProjectSTL.setViewPager(mProjectVP, categoryTitle)
     }

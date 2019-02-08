@@ -50,6 +50,7 @@ class MainActivity : BaseActivity(), MainContract.MainView {
         mainData.add(SystemFragment())
         mainData.add(ProjectFragment())
         mainData.add(NavigationFragment())
+        mMainVP.offscreenPageLimit = 3
         mMainVP.adapter = MainAdapter(supportFragmentManager, mainData)
     }
 
