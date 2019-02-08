@@ -39,7 +39,7 @@ class MainActivity : BaseActivity(), MainContract.MainView {
         mMainBottomNB
             .addItem(BottomNavigationItem(R.drawable.home, getString(R.string.main_home)))
             .addItem(BottomNavigationItem(R.drawable.system, getString(R.string.main_system)))
-            .addItem(BottomNavigationItem(R.drawable.project_256, getString(R.string.main_project)))
+            .addItem(BottomNavigationItem(R.drawable.project, getString(R.string.main_project)))
             .addItem(BottomNavigationItem(R.drawable.navigation, getString(R.string.main_navigation)))
             .setFirstSelectedPosition(0)
             .setMode(MODE_FIXED)
